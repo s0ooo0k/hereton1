@@ -1,0 +1,84 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>오늘뭐입지? :OOTD</title>
+    <style>
+        @font-face { font-family: 'netmarbleB'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.1/netmarbleB.woff') format('woff'); font-weight: normal; font-style: normal; }
+        @font-face { font-family: 'netmarbleL'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.1/netmarbleL.woff') format('woff'); font-weight: normal; font-style: normal; }
+    </style>
+</head>
+
+
+<body>
+    <!-------------navbar------------->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{%url 'main'%}" style="font-family: netmarbleB;">오늘뭐입지? :OOTD</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText" style="font-family: netmarbleL;">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{%url 'main'%}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">무언가</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">무언가..</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav mr-auto" style="padding-left:77%;">
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <p>{{user.username}}</p>
+              <form action="logout/" method="POST">
+                {% csrf_token %}
+              <input type="submit" value="Log out">
+              </form>
+            </li>
+          {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'signup' %}">Sign up</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Log in</a>
+            </li>
+          {% endif %}
+          </ul>
+        </div>
+    </nav>
+    <!-------------navbar------------->
+
+    <!-------------weather contents------------->
+    <div class="container">
+        <img src="{%static 'weather.jpg'%}" alt="날씨">
+        <p style="font-family: netmarbleL;">일단 대충 아무 사진 넣어놨는데 시간 되면 API 다시 시도해볼게요..</p>
+        <hr>
+    </div>
+    <!-------------weather contents------------->
+
+    <!-------------manager contents------------->
+    
+
+
+    <!-------------manager contents------------->
+
+
+    <div class="navbar">
+        <a class="nav-item nav-link" href="{%url 'create' %}">글쓰기</a>
+    </div>
+
+    <div class="container">
+      {%for ootd in ootdapps.all%}
+        {{ootd.title}}<br>
+        <a href="{%url 'detail' ootd.id%}"><img src="{{ootd.image.url}}"></a><br>
+        {{ootd.pub_date}}<br>
+        {{ootd.body}}<br>
+        <br><br>
+        {%endfor%}
+    </div>
+    
